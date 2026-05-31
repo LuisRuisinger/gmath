@@ -56,9 +56,10 @@ inline constexpr bool is_expr_v = is_expr_impl<remove_cvref_t<T>>::value;
 template <typename T>
 inline constexpr bool is_expr_node_v = is_term_v<T> || is_expr_v<T>;
 
-//
-// unary expression detection
-//
+// =================================================================================================
+// unary detection
+// =================================================================================================
+
 template <typename T>
 struct is_unary_expr_impl : std::false_type {};
 
@@ -67,6 +68,34 @@ struct is_unary_expr_impl<expr<Op, E>> : std::true_type {};
 
 template <typename T>
 inline constexpr bool is_unary_expr_v = is_unary_expr_impl<remove_cvref_t<T>>::value;
+
+// =================================================================================================
+// binary detection
+// =================================================================================================
+
+template <typename T>
+struct is_binary_expr_impl : std::false_type {};
+
+template <typename Op, typename L, typename R>
+struct is_binary_expr_impl<expr<Op, L, R>> : std::true_type {};
+
+template <typename T>
+inline constexpr bool is_binary_expr_v =
+    is_binary_expr_impl<remove_cvref_t<T>>::value;
+
+// =================================================================================================
+// tenary detection
+// =================================================================================================
+
+template <typename T>
+struct is_ternary_expr_impl : std::false_type {};
+
+template <typename Op, typename A, typename B, typename C>
+struct is_ternary_expr_impl<expr<Op, A, B, C>> : std::true_type {};
+
+template <typename T>
+inline constexpr bool is_ternary_expr_v =
+    is_ternary_expr_impl<remove_cvref_t<T>>::value;
 
 // =================================================================================================
 // stateless op detection
