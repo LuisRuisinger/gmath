@@ -13,7 +13,7 @@
 #include "term.hpp"
 #include "traits.hpp"
 
-namespace lsr::gmath::detail {
+namespace lsr::gmath::detail::expr {
 
 // =================================================================================================
 // optimizer traits
@@ -68,6 +68,6 @@ struct expr_optimizer {
     }
 };
 
-}  // namespace lsr::gmath::detail
+}  // namespace lsr::gmath::detail::expr
 
 #endif  // LRUISINGER_GMATH_INCLUDE_GMATH_DETAIL_EXPR_OPTIMIZER_HPP_

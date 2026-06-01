@@ -9,10 +9,10 @@
 // project files
 // =================================================================================================
 
-#include "fwd.hpp"
-#include "traits.hpp"
+#include "gmath/detail/expr/fwd.hpp"
+#include "gmath/detail/expr/traits.hpp"
 
-namespace lsr::gmath::detail {
+namespace lsr::gmath::detail::expr {
 
 template <typename Op, typename... Exprs>
 struct expr {
@@ -34,13 +34,13 @@ struct expr {
     constexpr expr &operator=(const expr &) noexcept = default;
     constexpr expr &operator=(expr &&) noexcept = default;
 
-    [[nodiscard]]
-    constexpr auto operator()() const;
+    [[nodiscard]] constexpr auto operator()() const;
+    [[nodiscard]] constexpr auto operator[](std::size_t) const;
 };
 
 template <typename Op, typename... Exprs>
 expr(Op, Exprs &&...) -> expr<remove_cvref_t<Op>, remove_cvref_t<Exprs>...>;
 
-}  // namespace lsr::gmath::detail
+}  // namespace lsr::gmath::detail::expr
 
 #endif  // LRUISINGER_GMATH_INCLUDE_GMATH_DETAIL_EXPR_HPP_

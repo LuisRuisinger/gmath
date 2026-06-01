@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.16)
 
 project(gmath
         VERSION 0.1.0
@@ -16,11 +16,21 @@ file(GLOB_RECURSE GMATH_HEADERS CONFIGURE_DEPENDS
         "${CMAKE_CURRENT_SOURCE_DIR}/include/gmath/*.h"
 )
 
-add_library(gmath INTERFACE
-        ${GMATH_HEADERS}
-)
-
+add_library(gmath INTERFACE)
 add_library(lsr::gmath ALIAS gmath)
+
+set(GMATH_INTERFACE_HEADERS)
+
+foreach(header IN LISTS GMATH_HEADERS)
+    list(APPEND GMATH_INTERFACE_HEADERS
+            "$<BUILD_INTERFACE:${header}>"
+    )
+endforeach()
+
+target_sources(gmath
+        INTERFACE
+        ${GMATH_INTERFACE_HEADERS}
+)
 
 target_include_directories(gmath
         INTERFACE

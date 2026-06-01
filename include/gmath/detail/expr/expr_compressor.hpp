@@ -15,7 +15,7 @@
 #include "term.hpp"
 #include "traits.hpp"
 
-namespace lsr::gmath::detail {
+namespace lsr::gmath::detail::expr {
 
 inline constexpr std::size_t EXPR_DEFAULT_MAX_DEPTH = 32;
 
@@ -79,6 +79,6 @@ struct expr_compressor {
     }
 };
 
-}  // namespace lsr::gmath::detail
+}  // namespace lsr::gmath::detail::expr
 
 #endif  // LRUISINGER_GMATH_INCLUDE_GMATH_DETAIL_EXPR_COMPRESSOR_HPP_

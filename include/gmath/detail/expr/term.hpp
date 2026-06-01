@@ -7,7 +7,7 @@
 
 #include "fwd.hpp"
 
-namespace lsr::gmath::detail {
+namespace lsr::gmath::detail::expr {
 
 template <typename T>
 struct term {
@@ -42,6 +42,7 @@ struct term<T &> {
 
     constexpr term(const term &) noexcept = default;
     constexpr term(term &&) noexcept = default;
+
     constexpr term &operator=(const term &) noexcept = default;
     constexpr term &operator=(term &&) noexcept = default;
 
@@ -51,6 +52,6 @@ struct term<T &> {
     }
 };
 
-}  // namespace lsr::gmath::detail
+}  // namespace lsr::gmath::detail::expr
 
 #endif  // LRUISINGER_GMATH_INCLUDE_GMATH_DETAIL_EXPR_TERM_HPP_

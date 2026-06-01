@@ -12,7 +12,7 @@
 #include "term.hpp"
 #include "traits.hpp"
 
-namespace lsr::gmath::detail {
+namespace lsr::gmath::detail::expr {
 
 template <typename T>
 struct wrapped_operand {
@@ -20,9 +20,11 @@ struct wrapped_operand {
     using node_t = remove_cvref_t<T>;
 
    public:
-    using type = std::conditional_t<
-        is_expr_node_v<node_t>, node_t,
-        std::conditional_t<std::is_lvalue_reference_v<T>, term<T>, term<node_t>>>;
+    using type =
+        std::conditional_t<is_expr_node_v<node_t>, node_t,
+                           std::conditional_t<is_view_like_v<node_t>, term<node_t>,
+                                              std::conditional_t<std::is_lvalue_reference_v<T>,
+                                                                 term<T>, term<node_t>>>>;
 };
 
 template <typename T>
@@ -39,10 +41,11 @@ constexpr auto wrap_operand(T &&value) {
 template <typename Op, typename... Args>
 [[gnu::always_inline]]
 constexpr auto make_expr(Op &&, Args &&...args) {
-    return expr<remove_cvref_t<Op>, wrapped_operand_t<Args &&>...>{
-        remove_cvref_t<Op>{}, wrap_operand(std::forward<Args>(args))...};
+    using expr_t = expr<remove_cvref_t<Op>, wrapped_operand_t<Args &&>...>;
+
+    return expr_t{remove_cvref_t<Op>{}, wrap_operand(std::forward<Args>(args))...};
 }
 
-}  // namespace lsr::gmath::detail
+}  // namespace lsr::gmath::detail::expr
 
 #endif  // LRUISINGER_GMATH_INCLUDE_GMATH_DETAIL_MAKE_EXPR_HPP_
