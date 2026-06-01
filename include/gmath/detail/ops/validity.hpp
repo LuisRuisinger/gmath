@@ -19,20 +19,17 @@ namespace lsr::gmath::detail {
 // =================================================================================================
 
 template <typename T>
-using range_element_t =
-    remove_cvref_t<decltype(std::declval<T &>()[std::declval<std::size_t>()])>;
+using range_element_t = remove_cvref_t<decltype(std::declval<T &>()[std::declval<std::size_t>()])>;
 
 // =================================================================================================
 // gmath scalar / value detection
 // =================================================================================================
 
 template <typename T>
-inline constexpr bool is_gmath_scalar_v =
-    std::is_arithmetic_v<remove_cvref_t<T>>;
+inline constexpr bool is_gmath_scalar_v = std::is_arithmetic_v<remove_cvref_t<T>>;
 
 template <typename T>
-inline constexpr bool is_gmath_value_v =
-    is_gmath_scalar_v<T> || lsr::gmath::is_mat_v<T>;
+inline constexpr bool is_gmath_value_v = is_gmath_scalar_v<T> || lsr::gmath::is_mat_v<T>;
 
 // =================================================================================================
 // gmath range detection
@@ -42,14 +39,11 @@ template <typename T, typename = void>
 struct is_gmath_range : std::false_type {};
 
 template <typename T>
-struct is_gmath_range<
-    T,
-    std::enable_if_t<is_indexable_range_v<T>>>
+struct is_gmath_range<T, std::enable_if_t<is_indexable_range_v<T>>>
     : std::bool_constant<is_gmath_value_v<range_element_t<T>>> {};
 
 template <typename T>
-inline constexpr bool is_gmath_range_v =
-    is_gmath_range<remove_cvref_t<T>>::value;
+inline constexpr bool is_gmath_range_v = is_gmath_range<remove_cvref_t<T>>::value;
 
 // =================================================================================================
 // expression operand detection
@@ -87,8 +81,7 @@ inline constexpr bool is_gmath_expr_structure_v =
 
 template <typename L, typename R>
 inline constexpr bool is_binary_expr_operand_pair_v =
-    is_gmath_expr_operand_v<L> &&
-    is_gmath_expr_operand_v<R> &&
+    is_gmath_expr_operand_v<L> && is_gmath_expr_operand_v<R> &&
     (is_gmath_expr_structure_v<L> || is_gmath_expr_structure_v<R>);
 
 }  // namespace lsr::gmath::detail
